@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	rtype check;
 
 	int *evts = new int[1];
-	evts[0] = PAPI_SP_OPS;
+	evts[0] = PAPI_EVENT ;
 
 	long long cvals;
 	rtype accum = 0.0;

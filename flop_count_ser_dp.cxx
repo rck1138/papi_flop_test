@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 	long long N = 8000000;          // number of trips through the loop
 
 	int *evts = new int[1];
-	evts[0] = PAPI_DP_OPS;
+	evts[0] = PAPI_EVENT ;
 	typedef double ftype;
 
 	long long cvals;
