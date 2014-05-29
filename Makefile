@@ -1,9 +1,13 @@
 CXX = icpc
 CFLAGS = -O0
 PAPIROOT = /glade/apps/opt/papi/5.3.0/intel/12.1.5
-DEF = -DPAPI_EVENT=$(PAPI_EVENT)
 INC = -I$(PAPIROOT)/include
 LIB = -L$(PAPIROOT)/lib64 -lpapi -Wl,-rpath,$(PAPIROOT)/lib64
+ifeq ($(PAPI_EVENT),)
+	DEF = -DPAPI_EVENT=PAPI_FP_OPS
+else
+	DEF = -DPAPI_EVENT=$(PAPI_EVENT)
+endif
 
 all: flop_count_ser_sp flop_count_ser_sp_pf flop_count_ser_dp flop_count_ser_dp_pf \
      flop_count_sse_sp flop_count_sse_sp_pf flop_count_sse_dp flop_count_sse_dp_pf \
