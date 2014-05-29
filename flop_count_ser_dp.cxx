@@ -18,6 +18,7 @@ int main(int argc, char **argv)
 	ftype *a2 = new ftype[N];
 	ftype *a3 = new ftype[N];
 	ftype phi = 1.618033;
+	ftype check;
 
 	for(int i=0; i<N; i++){
 		a1[i] = ftype(N) - ftype(i);
@@ -45,7 +46,8 @@ int main(int argc, char **argv)
 	
 	// use the result so it doesn't get optimized away
 	for(int i=0; i<N; i++) accum += a3[i];
-	if(accum < 0.0) cout << "This shouldn't happen" << endl;
+	check = a3[N-1] - (1.0+ N*1.618033);
+	if (check != 0.0) cout << "Validation check failed" << endl;
 
 	return 0;
 }
