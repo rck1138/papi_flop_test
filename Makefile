@@ -1,7 +1,8 @@
 CXX = icpc
 CFLAGS = -O0
 PAPIROOT = /glade/apps/opt/papi/5.3.0/intel/12.1.5
-INC = -I$(PAPIROOT)/include
+BOOSTROOT = /glade/apps/opt/boost/1.52.0/intel/12.1.5/
+INC = -I$(PAPIROOT)/include -I$(BOOSTROOT)/include
 LIB = -L$(PAPIROOT)/lib64 -lpapi -Wl,-rpath,$(PAPIROOT)/lib64
 ifeq ($(PAPI_EVENT),)
 	DEF = -DPAPI_EVENT=PAPI_FP_OPS

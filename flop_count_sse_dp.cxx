@@ -1,4 +1,5 @@
 #include<iostream>
+#include<boost/format.hpp>
 #include<papi.h>
 #include "immintrin.h"
 
@@ -10,7 +11,6 @@ int main(int argc, char **argv)
 	typedef __m128d vtype;
 	const int vlen = 16/sizeof(rtype);
 	const int offset = 4*vlen;
-	cout << "Vlen = " << vlen << endl;
 	long long N = 8000000;          // number of trips through the loop
 	rtype check;
 
@@ -56,8 +56,8 @@ int main(int argc, char **argv)
 	PAPI_stop_counters(&cvals, 1);
 
 	// print event counts
-	cout << "Counted:    Expected:    Ratio:" << endl;
-	cout << cvals << "     " << 2*N << "     " << float(cvals)/float(2*N) << endl;
+   cout << "Counted:    Expected:      Ratio:" << endl;
+   cout << boost::format("%8d") % cvals << "    " << boost::format("%9d") % (2*N) << "   " << boost::format("%9.5f") % (float(cvals)/float(2*N)) << endl;
 	
 	// use the result so it doesn't get optimized away, check last value
    for(int i=0; i<N/vlen; i++) _mm_store_pd (&a3[vlen*i], a3v[i]);

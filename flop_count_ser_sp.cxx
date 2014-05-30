@@ -1,4 +1,5 @@
 #include<iostream>
+#include<boost/format.hpp>
 #include<papi.h>
 #include "immintrin.h"
 
@@ -40,10 +41,9 @@ int main(int argc, char **argv)
 	// stop counting
 	PAPI_stop_counters(&cvals, 1);
 
-	// print event counts
-	cout << "Counted:    Expected:    Ratio:" << endl;
-	cout << cvals << "     " << 2*N << "     " << float(cvals)/float(2*N) << endl;
-	
+   // print event counts
+   cout << "Counted:    Expected:      Ratio:" << endl;
+   cout << boost::format("%8d") % cvals << "    " << boost::format("%9d") % (2*N) << "   " << boost::format("%9.5f") % (float(cvals)/float(2*N)) << endl;	
 	// use the result so it doesn't get optimized away
 	for(int i=0; i<N; i++) accum += a3[i];
 	check = a3[N-1] - (1.0+ N*1.618033);
