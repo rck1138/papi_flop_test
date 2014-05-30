@@ -14,19 +14,31 @@ my @tests = ("flop_count_ser_sp","flop_count_ser_sp_pf",
 
 my $e;      # event idx
 my $t;      # test idx
-my $n;      # number of test iterations
+my $n=20;   # number of test iterations
+my $i;      # loop dummy
 my $r;      # ratio - output of running a test
 my $avg_r;  # average ratio of the $n tests
 my $min_r;  # min ratio over $n tests
 my $max_r;  # max ratio over $n tests
 
-foreach $e ("PAPI_FP_OPS"){
-	#system("make clean; make PAPI_EVENT=$e");
+foreach $e (@events){
+	open(FILE, ">$e.results");
+	system("make clean; make PAPI_EVENT=$e");
 	foreach $t (@tests){
-		$_ = `./$t`;
-		s/\n//g;
-		/([0-9]+\.[0-9]+)$/;
-		$r = $1;
-		print "r = $r\n"; 
+		$min_r = 1000;
+		$max_r = 0.0;
+		$avg_r = 0.0; 
+		for($i=0; $i<$n; $i++){
+			$_ = `./$t`;
+			s/\n//g;
+			/([0-9]+\.[0-9]+)$/;
+			$r = $1;
+			$avg_r += $r;
+			$min_r = $r < $min_r ? $r : $min_r;
+			$max_r = $r > $max_r ? $r : $max_r;
+		}
+		$avg_r /= $n;
+		printf FILE "%-20s: avg: %7.5f, range: (%7.5f - %7.5f)\n", $t, $avg_r, $min_r, $max_r;
 	}
+	close FILE;
 } 
