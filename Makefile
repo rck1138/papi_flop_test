@@ -12,7 +12,8 @@ endif
 
 all: flop_count_ser_sp flop_count_ser_sp_pf flop_count_ser_dp flop_count_ser_dp_pf \
      flop_count_sse_sp flop_count_sse_sp_pf flop_count_sse_dp flop_count_sse_dp_pf \
-     flop_count_avx_sp flop_count_avx_sp_pf flop_count_avx_dp flop_count_avx_dp_pf
+     flop_count_avx_sp flop_count_avx_sp_pf flop_count_avx_dp flop_count_avx_dp_pf \
+     flop_count_worst
 
 flop_count_ser_sp: flop_count_ser_sp.cxx
 	$(CXX) -o flop_count_ser_sp $(DEF) $(INC) $(CFLAGS) $(LIB) $<
@@ -50,7 +51,12 @@ flop_count_avx_dp: flop_count_avx_dp.cxx
 flop_count_avx_dp_pf: flop_count_avx_dp.cxx
 	$(CXX) -o flop_count_avx_dp_pf -DPREFETCH $(DEF) $(INC) $(CFLAGS) $(LIB) $<
 
+flop_count_worst: flop_count_worst.cxx
+	$(CXX) -o flop_count_worst -DPAPI_EVENT=PAPI_VEC_DP $(INC) $(CFLAGS) $(LIB) $<
+
 clean:
 	rm -f *.o *.s flop_count_ser_sp flop_count_ser_sp_pf flop_count_ser_dp flop_count_ser_dp_pf \
                  flop_count_sse_sp flop_count_sse_sp_pf flop_count_sse_dp flop_count_sse_dp_pf \
-                 flop_count_avx_sp flop_count_avx_sp_pf flop_count_avx_dp flop_count_avx_dp_pf
+                 flop_count_avx_sp flop_count_avx_sp_pf flop_count_avx_dp flop_count_avx_dp_pf \
+                 flop_count_worst
+
